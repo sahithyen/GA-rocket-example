@@ -7,7 +7,6 @@
 function Population() {
   this.rockets = [];
   this.popsize = 25;
-  this.matingpool = [];
 
   for (var i = 0; i < this.popsize; i++) {
     this.rockets[i] = new Rocket();
@@ -26,21 +25,23 @@ function Population() {
     for (var i = 0; i < this.popsize; i++) {
       this.rockets[i].fitness /= maxfit;
     }
-
-    this.matingpool = [];
-    for (var i = 0; i < this.popsize; i++) {
-      var n = this.rockets[i].fitness * 100;
-      for (var j = 0; j < n; j++) {
-        this.matingpool.push(this.rockets[i]);
-      }
-    }
   }
 
   this.selection = function() {
+    var matingPool = [];
+
+    for (var i = 0; i < this.popsize; i++) {
+      var n = this.rockets[i].fitness * 100;
+
+      for (var j = 0; j < n; j++) {
+        matingPool.push(this.rockets[i]);
+      }
+    }
+
     var newRockets = [];
     for (var i = 0; i < this.rockets.length; i++) {
-      var parentA = random(this.matingpool).dna;
-      var parentB = random(this.matingpool).dna;
+      var parentA = random(matingPool).dna;
+      var parentB = random(matingPool).dna;
       var child = parentA.crossover(parentB);
       child.mutation();
       newRockets[i] = new Rocket(child);
