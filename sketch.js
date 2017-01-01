@@ -4,24 +4,37 @@
  * Forked from https://github.com/RainbowCoder/Video-Lesson-Materials
  */
 
-var population;
-var lifespan = 400;
-var lifeP;
-var count = 0;
-var target;
-var maxforce = 0.2;
 
-var rx = 100;
-var ry = 150;
-var rw = 200;
-var rh = 10;
+var
+  population,
+  lifespan = 400,
+  lifeP,
+  count = 0,
+  maxforce = 0.2,
+  target,
+  obstacle;
 
 function setup() {
   createCanvas(400, 300);
   population = new Population();
   lifeP = createP();
-  target = createVector(width / 2, 50);
 
+  target = {
+    position: createVector(
+      width * 0.95,
+      height / 2
+    ),
+    width: 16,
+    height: 16
+  };
+  obstacle = {
+    position: createVector(
+      width / 2 - 10,
+      height / 2 - 100
+    ),
+    width: 20,
+    height: 200
+  };
 }
 
 function draw() {
@@ -37,8 +50,17 @@ function draw() {
     count = 0;
   }
 
+  // Draw obstacle
+  noStroke();
   fill(255);
-  rect(rx, ry, rw, rh);
+  rect(
+    obstacle.position.x,
+    obstacle.position.y,
+    obstacle.width,
+    obstacle.height
+  );
 
-  ellipse(target.x, target.y, 16, 16);
+  // Draw target
+  ellipseMode(CENTER);
+  ellipse(target.position.x, target.position.y, target.width, target.height);
 }
