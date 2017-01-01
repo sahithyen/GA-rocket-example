@@ -1,7 +1,8 @@
-// Daniel Shiffman
-// http://codingrainbow.com
-// http://patreon.com/codingrainbow
-// Code for: https://youtu.be/bGz7mv2vD6g
+/*
+ * Sahithyen Kanganayagam (mail@sahithyen.com)
+ * Original author: Daniel Shiffman
+ * Forked from https://github.com/RainbowCoder/Video-Lesson-Materials
+ */
 
 function DNA(genes) {
   if (genes) {
