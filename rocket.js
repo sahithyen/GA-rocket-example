@@ -5,11 +5,12 @@
  */
 
 function Rocket(dna) {
-  this.position = createVector(25, height / 2);
+  this.position = start.position.copy();
   this.vel = createVector();
   this.acc = createVector();
   this.completed = false;
   this.crashed = false;
+  this.finishingTime = 0;
 
   if (dna) {
     this.dna = dna;
@@ -28,6 +29,7 @@ function Rocket(dna) {
 
     if (this.completed) {
       this.fitness *= 10;
+      this.fitness += (lifeSpan - this.finishingTime) * 1000;
     }
 
     if (this.crashed) {
@@ -38,9 +40,9 @@ function Rocket(dna) {
   this.update = function() {
     // Check whether the rocket has reached the target
     var d = this.position.dist(target.position);
-    if (d < 10) {
+    if (d < target.width / 2) {
       this.completed = true;
-      this.position = target.position.copy();
+      this.finishingTime = count;
     }
 
     // Check collision with obstacle
@@ -62,18 +64,22 @@ function Rocket(dna) {
       this.vel.add(this.acc);
       this.position.add(this.vel);
       this.acc.mult(0);
-      this.vel.limit(4);
+      this.vel.limit(8);
     }
   }
 
   this.show = function() {
     push();
-    noStroke();
-    fill(255, 150);
     translate(this.position.x, this.position.y);
     rotate(this.vel.heading());
-    rectMode(CENTER);
-    rect(0, 0, 25, 5);
+    imageMode(CENTER);
+    if (this.completed) {
+      image(images.GARocketFinished, 0, 0, 25, 5);
+    } else if (this.crashed) {
+      image(images.GARocketDestroyed, 0, 0, 25, 5);
+    } else {
+      image(images.GARocket, 0, 0, 25, 5);
+    }
     pop();
   }
 }

@@ -6,7 +6,7 @@
 
 function Population() {
   this.rockets = [];
-  this.popsize = 25;
+  this.popsize = 50;
 
   for (var i = 0; i < this.popsize; i++) {
     this.rockets[i] = new Rocket();
