@@ -25,7 +25,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1500, 300);
+  createCanvas(900, 300);
 
   earth = {
     position: createVector(
