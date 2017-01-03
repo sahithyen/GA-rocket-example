@@ -5,7 +5,7 @@
  */
 
 function Rocket(dna) {
-  this.position = start.position.copy();
+  this.position = earth.position.copy();
   this.vel = createVector();
   this.acc = createVector();
   this.completed = false;
@@ -21,10 +21,10 @@ function Rocket(dna) {
 
   this.applyForce = function(force) {
     this.acc.add(force);
-  }
+  };
 
   this.calcFitness = function() {
-    var d = this.position.dist(target.position);
+    var d = this.position.dist(mars.position);
     this.fitness = map(d, 0, width, width, 0);
 
     if (this.completed) {
@@ -35,21 +35,25 @@ function Rocket(dna) {
     if (this.crashed) {
       this.fitness /= 10;
     }
-  }
+  };
 
   this.update = function() {
     // Check whether the rocket has reached the target
-    var d = this.position.dist(target.position);
-    if (d < target.width / 2) {
+    var dist = this.position.dist(mars.position);
+    if (dist < mars.width / 2) {
       this.completed = true;
       this.finishingTime = count;
     }
 
-    // Check collision with obstacle
-    this.crashed = this.position.x > obstacle.position.x &&
-      this.position.x < obstacle.position.x + obstacle.width &&
-      this.position.y > obstacle.position.y &&
-      this.position.y < obstacle.position.y + obstacle.height;
+    // Check collision with obstacles
+    for (var i = 0; i < asteroids.length; i++) {
+      var asteroid = asteroids[i];
+
+      dist = this.position.dist(asteroid.position);
+
+      this.crashed = this.crashed ||
+        dist < asteroid.width / 2;
+    }
 
     // Check collision with canvas sides
     this.crashed = this.crashed ||
@@ -64,9 +68,9 @@ function Rocket(dna) {
       this.vel.add(this.acc);
       this.position.add(this.vel);
       this.acc.mult(0);
-      this.vel.limit(8);
+      this.vel.limit(10);
     }
-  }
+  };
 
   this.show = function() {
     push();
@@ -81,5 +85,5 @@ function Rocket(dna) {
       image(images.GARocket, 0, 0, 25, 5);
     }
     pop();
-  }
+  };
 }

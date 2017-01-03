@@ -11,7 +11,7 @@ function DNA(genes) {
     this.genes = [];
     for (var i = 0; i < lifeSpan; i++) {
       this.genes[i] = p5.Vector.random2D();
-      this.genes[i].setMag(maxforce);
+      this.genes[i].setMag(random(maxForce));
     }
   }
 
@@ -26,14 +26,14 @@ function DNA(genes) {
       }
     }
     return new DNA(newgenes);
-  }
+  };
 
   this.mutation = function() {
     for (var i = 0; i < this.genes.length; i++) {
       if (random(1) < 0.01) {
         this.genes[i] = p5.Vector.random2D();
-        this.genes[i].setMag(maxforce);
+        this.genes[i].setMag(random(maxForce));
       }
     }
-  }
+  };
 }

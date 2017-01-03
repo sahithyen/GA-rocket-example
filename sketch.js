@@ -4,17 +4,16 @@
  * Forked from https://github.com/RainbowCoder/Video-Lesson-Materials
  */
 
-
 var
   images = {},
   population,
   lifeSpan = 200,
   lifeP,
   count = 0,
-  maxforce = 0.8,
-  target,
-  obstacle,
-  start;
+  maxForce = 1,
+  mars,
+  asteroids,
+  earth;
 
 function preload() {
   images.GARocket = loadImage("img/GARocket.png");
@@ -22,35 +21,47 @@ function preload() {
   images.GARocketDestroyed = loadImage("img/GARocketDestroyed.png");
   images.GAEarth = loadImage("img/GAEarth.png");
   images.GAMars = loadImage("img/GAMars.png");
+  images.GAVesta = loadImage("img/GAVesta.png");
 }
 
 function setup() {
-  createCanvas(1080, 300);
+  createCanvas(1500, 300);
 
-  start = {
+  earth = {
     position: createVector(
       width * 0.1,
       height / 2
     ),
     width: 100,
-    height: 100
+    height: 100,
+    image: images.GAEarth
   };
-  target = {
+  mars = {
     position: createVector(
       width * 0.9,
       height / 2
     ),
     width: 50,
-    height: 50
+    height: 50,
+    image: images.GAMars
   };
-  obstacle = {
+  asteroids = [{
     position: createVector(
-      width / 2 - 50,
+      width / 2 - 100,
       height / 2 - 50
     ),
     width: 100,
-    height: 100
-  };
+    height: 100,
+    image: images.GAVesta
+  }, {
+    position: createVector(
+      width / 2 + 100,
+      height / 2 + 50
+    ),
+    width: 100,
+    height: 100,
+    image: images.GAVesta
+  }];
 
   population = new Population();
   lifeP = createP();
@@ -59,38 +70,41 @@ function setup() {
 function draw() {
   background(0);
 
-  // Draw start
   imageMode(CENTER);
+
+  // Draw earth
   image(
-    images.GAEarth,
-    start.position.x,
-    start.position.y,
-    start.width,
-    start.height
+    earth.image,
+    earth.position.x,
+    earth.position.y,
+    earth.width,
+    earth.height
   );
 
-  // Draw target
-  imageMode(CENTER);
+  // Draw asteroids
+  for (var i = 0; i < asteroids.length; i++) {
+    var asteroid = asteroids[i];
+
+    image(
+      asteroid.image,
+      asteroid.position.x,
+      asteroid.position.y,
+      asteroid.width,
+      asteroid.height
+    );
+  }
+
+  // Draw mars
   image(
-    images.GAMars,
-    target.position.x,
-    target.position.y,
-    target.width,
-    target.height
+    mars.image,
+    mars.position.x,
+    mars.position.y,
+    mars.width,
+    mars.height
   );
 
   // Update and draw population of rockets
   population.run();
-
-  // Draw obstacle
-  noStroke();
-  fill(255, 0, 0, 128);
-  rect(
-    obstacle.position.x,
-    obstacle.position.y,
-    obstacle.width,
-    obstacle.height
-  );
 
   // Update life span count
   lifeP.html(count);

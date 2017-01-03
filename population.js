@@ -6,7 +6,7 @@
 
 function Population() {
   this.rockets = [];
-  this.popsize = 50;
+  this.popsize = 25;
 
   for (var i = 0; i < this.popsize; i++) {
     this.rockets[i] = new Rocket();
@@ -22,10 +22,10 @@ function Population() {
       }
     }
 
-    for (var i = 0; i < this.popsize; i++) {
+    for (i = 0; i < this.popsize; i++) {
       this.rockets[i].fitness /= maxfit;
     }
-  }
+  };
 
   this.selection = function() {
     var matingPool = [];
@@ -39,7 +39,7 @@ function Population() {
     }
 
     var newRockets = [];
-    for (var i = 0; i < this.rockets.length; i++) {
+    for (i = 0; i < this.rockets.length; i++) {
       var parentA = random(matingPool).dna;
       var parentB = random(matingPool).dna;
       var child = parentA.crossover(parentB);
@@ -47,12 +47,12 @@ function Population() {
       newRockets[i] = new Rocket(child);
     }
     this.rockets = newRockets;
-  }
+  };
 
   this.run = function() {
     for (var i = 0; i < this.popsize; i++) {
       this.rockets[i].update();
       this.rockets[i].show();
     }
-  }
+  };
 }
